@@ -1,0 +1,118 @@
+/* スムーズスクロール */
+html {
+    scroll-behavior: smooth;
+}
+
+/* CTAボタンのスタイル */
+.cta-button {
+    border: 3px solid #000;
+    font-weight: 800;
+}
+
+.cta-button:hover {
+    transform: scale(1.08);
+}
+
+/* Strategyカードのスタイル */
+.strategy-card {
+    transition: transform 0.2s ease;
+}
+
+.strategy-card:hover {
+    transform: scale(1.04);
+}
+
+/* じゃんけんボタンのスタイル */
+.janken-btn {
+    @apply p-4 rounded-full bg-white shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.janken-btn span {
+    @apply text-[#212121] transition-colors duration-300;
+}
+
+.janken-btn:hover span {
+    @apply text-[#F4B400];
+}
+
+/* 勝率バーのスタイル */
+#win-rate-bar {
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* 結果表示のスタイル */
+.result-text {
+    font-size: 2.2rem;
+    font-weight: 900;
+    text-align: center;
+    margin-top: 1rem;
+    opacity: 0;
+    transform: scale(1.1);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.result-text.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.result-text.win {
+    color: #2E7D32;
+}
+
+.result-text.lose {
+    color: #C62828;
+}
+
+.result-text.tie {
+    color: #FF8F00;
+}
+
+/* 履歴アイコンのスタイル */
+.history-icon {
+    @apply w-6 h-6 p-1 rounded-full bg-white shadow;
+}
+
+.history-icon.win {
+    @apply bg-[#F4B400] text-white;
+}
+
+.history-icon.lose {
+    @apply bg-[#FF7043] text-white;
+}
+
+.history-icon.tie {
+    @apply bg-gray-300 text-white;
+}
+
+/* モーダルのスタイル */
+.modal {
+    @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden;
+}
+
+.modal-content {
+    @apply bg-white rounded-lg p-6 max-w-lg w-full mx-4;
+}
+
+/* アニメーション */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.slide-up {
+    animation: slideUp 0.3s ease-out;
+} 

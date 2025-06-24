@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>じゃんけん攻略ラボ - 科学で勝つ！じゃんけん必勝法</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#FFFCEF] text-[#212121] font-['Noto_Sans_JP']">
+    <!-- Hero Section -->
+    <section id="hero" class="min-h-screen flex items-center justify-center px-4">
+        <div class="text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">科学で勝つ！じゃんけん必勝ラボ</h1>
+            <p class="text-xl md:text-2xl mb-8">統計学と心理学で、じゃんけんを攻略しよう</p>
+            <a href="#play" class="cta-button bg-[#F4B400] hover:bg-[#FF7043] text-black font-extrabold py-12 px-24 text-4xl rounded-lg transition-all duration-200 inline-block">
+                今すぐにプレイ
+            </a>
+        </div>
+    </section>
+
+    <!-- Strategy Section -->
+    <section id="strategy" class="py-20 px-4">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">じゃんけんを"読む"ための3つの科学ポイント</h2>
+        <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
+            <!-- Strategy Card 1 -->
+            <div class="strategy-card bg-white rounded-lg shadow-lg p-6 cursor-pointer">
+                <h3 class="text-xl font-bold mb-4">人はグーが35%、チョキは31.7%、パーは33.3%</h3>
+                <p class="mb-4">ランダムなら各33.3%のはずが実測は偏りあり。対策：初手でパーを出すと理論的に有利。</p>
+            </div>
+            <!-- Strategy Card 2 -->
+            <div class="strategy-card bg-white rounded-lg shadow-lg p-6 cursor-pointer">
+                <h3 class="text-xl font-bold mb-4">Win–Stay / Lose–Shift</h3>
+                <p class="mb-4">勝ったら同じ手を繰り返す確率約50%。負けたら次の手へ循環しがち。</p>
+            </div>
+            <!-- Strategy Card 3 -->
+            <div class="strategy-card bg-white rounded-lg shadow-lg p-6 cursor-pointer">
+                <h3 class="text-xl font-bold mb-4">同じ手3連続は避けがち</h3>
+                <p class="mb-4">3回続けて同じ手を出す確率は理論値1/27より大幅に低い。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Play Section -->
+    <section id="play" class="py-20 px-4 bg-white">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">じゃんけんゲーム</h2>
+            <div class="flex justify-center gap-8 mb-8">
+                <button class="janken-btn" data-hand="rock">
+                    <span class="text-6xl">✊️</span>
+                </button>
+                <button class="janken-btn" data-hand="paper">
+                    <span class="text-6xl">✋️</span>
+                </button>
+                <button class="janken-btn" data-hand="scissors">
+                    <span class="text-6xl">✌️</span>
+                </button>
+            </div>
+            <div class="text-center mb-8">
+                <p id="result-message" class="text-xl font-bold mb-4"></p>
+                <div id="history" class="flex justify-center gap-2 mb-4"></div>
+                
+                <!-- ゲーム成績パネル -->
+                <div class="stats-panel bg-white rounded-lg shadow-lg p-6 mb-6">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        <div class="stat-item">
+                            <div class="text-sm text-gray-600">勝ち回数</div>
+                            <div id="win-count" class="text-2xl font-bold">0</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="text-sm text-gray-600">引き分け回数</div>
+                            <div id="tie-count" class="text-2xl font-bold">0</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="text-sm text-gray-600">負け回数</div>
+                            <div id="lose-count" class="text-2xl font-bold">0</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="text-sm text-gray-600">総対戦数</div>
+                            <div id="total-count" class="text-2xl font-bold">0</div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="stat-item">
+                            <div class="text-sm text-gray-600">勝率 (引き分け含む)</div>
+                            <div id="win-rate-with-ties" class="text-2xl font-bold">0.0%</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="text-sm text-gray-600">勝率 (引き分け除く)</div>
+                            <div id="win-rate-without-ties" class="text-2xl font-bold">0.0%</div>
+                        </div>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
+                        <div id="win-rate-bar" class="bg-[#F4B400] h-4 rounded-full"></div>
+                    </div>
+                </div>
+
+                <!-- 結果表示 -->
+                <div id="result-message" class="result-text text-4xl font-black text-center mt-4 mb-8"></div>
+
+                <!-- AIの手の出現割合 -->
+                <div class="ai-stats bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-lg font-bold mb-4">AIの手の出現割合</h3>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="stat-item text-center">
+                            <div class="text-sm text-gray-600">グー</div>
+                            <div id="rock-rate" class="text-xl font-bold">0.0%</div>
+                        </div>
+                        <div class="stat-item text-center">
+                            <div class="text-sm text-gray-600">パー</div>
+                            <div id="paper-rate" class="text-xl font-bold">0.0%</div>
+                        </div>
+                        <div class="stat-item text-center">
+                            <div class="text-sm text-gray-600">チョキ</div>
+                            <div id="scissors-rate" class="text-xl font-bold">0.0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button id="suggest-btn" class="bg-[#F4B400] hover:bg-[#FF7043] text-white font-bold py-2 px-6 rounded-full transition-all duration-300">
+                    次におすすめの手
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">このサイトについて</h2>
+            <div class="prose max-w-none">
+                <p class="mb-6">
+                    じゃんけん攻略ラボは、統計学と心理学の知見を活用して、じゃんけんの勝率を向上させる方法を研究・実践するためのサイトです。
+                </p>
+                <h3 class="text-xl font-bold mb-4">参考文献</h3>
+                <ul class="list-disc pl-6">
+                    <li>Wang, R. (2014). The Psychology of Rock-Paper-Scissors.</li>
+                    <li>Walker, M. (2016). Human Behavior in Rock-Paper-Scissors.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <script src="main.js"></script>
+</body>
+</html> 
